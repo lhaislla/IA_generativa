@@ -1,0 +1,13 @@
+.env
+.history
+*.pyc
+*.pq
+*.csv
+*.xls
+*.xlsx
+*.parquet
+secrets.toml
+.idea/
+venv/
+tmp/
+data/
