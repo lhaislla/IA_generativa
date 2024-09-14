@@ -1,5 +1,6 @@
 .env
 .history
+*.pptx
 *.pyc
 *.pq
 *.csv
