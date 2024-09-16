@@ -22,5 +22,8 @@ Este projeto utiliza a API do Google Generative AI para gerar conteúdo textual 
 2. **Crie um ambiente virtual do python: `` python -m venv venv``**
 3. **Durante a criação do ambiente virtual, o VSCode irá abrir um popup confirmando se você deseja utilizar o python do ambiente virtual detectado. Confirme. Em seguida, abra um novo terminal (clicando no +) para que a instalação surta efeito.**
 4. **Atualize o pip: ``python -m pip install --upgrade pip``**
-6. **Atualize as libs: `` -r requirements.txt --upgrade``**
-7. **Rode o sistema: ``python .\ia_generative.py``**
+6. **Atualize as libs: `` pip install -r requirements.txt --upgrade``**
+7. **Criar um arquivo .env e adicionar chave GOOGLE_API_KEY como em env_models**
+8. **Rode o sistema: ``python .\index.py``**
+9. **Após a criação da pasta de result execute o ``analysis.ipynb``**
+

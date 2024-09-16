@@ -9,6 +9,6 @@
 *.parquet
 secrets.toml
 .idea/
-venv/
+.venv/
 tmp/
 data/
