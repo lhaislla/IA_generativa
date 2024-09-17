@@ -16,25 +16,45 @@ def load_key():
 
 def create_instruction():
     prompt = """
-    A ovoscopia é um método utilizado para avaliar a qualidade dos ovos, especialmente em processos de incubação e produção de ovos comerciais.
-        A técnica consiste em observar o interior do ovo por meio de uma luz intensa, geralmente em um ambiente escuro, para verificar a presença de anomalias, 
-        como fissuras na casca, problemas no desenvolvimento do embrião ou alterações na câmara de ar.
+    Contexto:A ovoscopia é um método técnico utilizado na inspeção da qualidade interna e externa dos ovos, sendo amplamente empregada em incubatórios e na produção comercial de ovos. Este processo envolve a passagem de luz intensa através da casca do ovo, permitindo ao avaliador observar detalhes internos e detectar possíveis defeitos. 
+    Por meio dessa técnica, o avaliador pode identificar fissuras na casca, irregularidades no desenvolvimento do embrião e anomalias na câmara de ar. A análise da câmara de ar é crucial, pois ela deve estar localizada de forma estável em uma das extremidades do ovo e apresentar um tamanho adequado. Desvios desse padrão podem indicar problemas de armazenamento ou deterioração.
+    Além disso, a ovoscopia permite observar a presença de manchas internas, indicativas de contaminação por fungos ou bactérias, e distinguir a opacidade interna, que pode sinalizar contaminação ou deterioração avançada, caso as partes internas do ovo não sejam visíveis. Dessa forma, a técnica é essencial para garantir que os ovos sejam adequados para consumo ou incubação.
 
-        Você é uma zootecnista avícola especializada na avaliação de ovos. E irá classificar os ovos a partir de uma imagem provida como entrada no prompt.
+    Persona: Você deve assumir o papel de uma zootecnista avícola especialista em avaliação de ovos, responsável por analisar imagens de ovos fornecidas e classificá-los com base nas características observadas. A tarefa consiste em avaliar a qualidade da casca e outras características internas utilizando a técnica de ovoscopia.
 
-    Deve ser análise os seguintes pontos na imagem:
-    - Câmara de ar deslocada ou muito grande. No ovo fresco, a câmara de ar fica fixa em uma extremidade, pequena e estável.
-    - A presença de manchas escuras, pontos ou linhas dentro do ovo pode indicar a formação de mofo ou o desenvolvimento de bactérias, tornando-o impróprio para consumo.
-    - Se o interior do ovo aparece completamente escuro, sem a distinção das partes internas, é um sinal de contaminação ou deterioração.
+    Pontos a serem analisados:
+    - Câmara de ar: Uma câmara de ar deslocada ou muito grande pode indicar perda de qualidade. Em ovos frescos, a câmara de ar deve estar pequena e localizada em uma das extremidades.
+    - Manchas internas: Manchas escuras, pontos ou linhas no interior do ovo podem sugerir a presença de mofo ou bactérias, tornando-o impróprio para consumo.
+    - Opacidade interna: Se o ovo apresentar um interior completamente escuro, sem distinção clara das partes internas, isso é um indício de contaminação ou deterioração.
 
-    A imagem conterá ovos dispostos verticalmente, com um total de 15 ovos. Classifique a qualidade da casca de cada ovo usando a escala de 1 a 4,
-    sendo 1 para uma qualidade  'muito boa' e 4 para 'muito ruim'. Os ovos dispostos horizontalmente estão vazios e não devem ser considerados.
+    Critérios de análise:
+    1. A imagem conterá 15 ovos dispostos verticalmente em uma matriz de 3 linhas por 5 colunas.
+    2. Ignore os ovos dispostos horizontalmente, pois estão vazios e não precisam ser avaliados.
+    3. Para cada ovo na matriz, classifique a qualidade da casca de acordo com a seguinte escala de 1 a 4:
+    - 1: Qualidade muito boa.
+    - 2: Qualidade boa.
+    - 3: Qualidade regular.
+    - 4: Qualidade ruim.
+    4. A numeração dos ovos segue a ordem de baixo para cima e da esquerda para a direita.
 
-    Na imagem há 15 ovos distribuidos numa matriz com 3 linhas e 5 colunas. O resultado deve ser em formato csv com as coluna do número do ovo e sua classificação
-    separada por ";". O número do ovo na ordem da baixo para cima da esquerda para direita.
+    Formato do resultado:
+    - O resultado da análise deve ser gerado em um arquivo CSV com duas colunas:
+    - Número do ovo: A ordem dos ovos conforme descrita.
+    - Classificação: A nota da qualidade da casca (1 a 4).
+    - O formato CSV deve utilizar o ponto e vírgula ";" como separador, conforme o exemplo abaixo:
+    ovo1;1
+    ovo2;3
+    ovo3;2
+    
+    Exemplo de referência:
+    1. Para facilitar a classificação, você receberá uma imagem inicial de referência, contendo 4 ovos dispostos horizontalmente, com as seguintes classificações:
+    - O ovo mais à esquerda será classificado como 1 (qualidade muito boa).
+    - O ovo mais à direita será classificado como 4 (qualidade ruim).
+    2. Utilize essa imagem como base comparativa para as avaliações posteriores. Além da comparação visual, considere as observações de ovoscopia mencionadas para a classificação final.
 
-    Como primeira instrução, a primeira imagem com um exemplo de referência da classificação de 1 a 4 de cada ovo. A imagem conterá 4 ovos dispostos horizontalmente, sendo o mais a esquerda classificado com 1 e o mais a direita classificado como 4. Para classificar os ovos veja qual que mais se aproxima da referência proposta. Leve em consideração também a análise da ovoscopia;
-    Logo após terá o esquema de uma imagem seguida de um csv, eles servirão de exemplos de algumas classificações já existentes. Cada csv é a classificação correta ser retornado de acordo com a imagem dos ovos anexada. Nesses casos, não precisa retornar nada pois de trata de casos de treinamento para você ter como referência.
+    Esquemas de treinamento:
+    - Você também receberá imagens de exemplo seguidas por arquivos CSV contendo a classificação correta de cada ovo. Esses exemplos servirão para familiarização e não requerem respostas, pois são parte do treinamento para a tarefa principal.
+
     """
     return prompt
  
@@ -112,46 +132,69 @@ def main():
     load_key()
 
     df = pd.read_excel("./IAGenOvoscopia/OVOSCOPIA-1RODADA - Sem 28dias.xlsx")
+    
     folders = ["0 DIAS - FRESCOS", "14 DIAS", "21 DIAS", "7 DIAS"]
     
     # Pegar todos os paths das imagens
     images_eggs_path = load_folders(os.getcwd(), folders)
 
-    # Dar upload das imagem base das classificações
-    first_image_reference = load_image_to_gemini( os.path.join(os.getcwd(), "img/Imagem base.png"))
-    # Dar upload nas demais imagens que serão utilizadas no projeto. É retornado um dicionário onde a chave é o path, e o valor é um array com o primeiro
-    # index tendo informação do intervalo da numeração dos ovos que a imagem se encontra, o segundo index é o file gerado pelo gemini ao dar upload 
+    # # Dar upload das imagem base das classificações
+    # first_image_reference = load_image_to_gemini( os.path.join(os.getcwd(), "img/Imagem base.png"))
+    # # Dar upload nas demais imagens que serão utilizadas no projeto. É retornado um dicionário onde a chave é o path, e o valor é um array com o primeiro
+    # # index tendo informação do intervalo da numeração dos ovos que a imagem se encontra, o segundo index é o file gerado pelo gemini ao dar upload 
+    # map_file_reference = load_all_egg_images_to_gemini(images_eggs_path)
+
+
+    # files_gemini = list(map(lambda x: x[1], map_file_reference.values()))
+
+    # #Aguardar o upload
+    # LoadImage.wait_for_files_active([first_image_reference] + files_gemini)
+
+    # # Pegar instrução inicial para o modelo
+    # instruction = create_instruction()
+
+    # egg_ia_gen = EggModelGen()
+
+    # egg_ia_gen.create_model(initial_instruction=instruction)
+
+    # #Carregar o primeira imagem como exemplo
+    # example = map_file_reference[images_eggs_path[0]]
+
+    # chat_session = egg_ia_gen.model.start_chat(
+    #     history=[
+    #         {
+    #             "role": "user",
+    #             "parts": [
+    #                first_image_reference,
+    #                example[1],
+    #                generate_training_example(df, example[0][0] - 1, example[0][1] - 1)
+    #             ],
+    #         },
+    #     ]
+    # )
+
+
+    # Carregar as imagens base de classificações
+    base_images = ["img/Imagem base.png", "img/Imagem base_2.png", "img/Imagem base_3.png"]
+    base_image_references = [load_image_to_gemini(os.path.join(os.getcwd(), img)) for img in base_images]
     map_file_reference = load_all_egg_images_to_gemini(images_eggs_path)
-
-
     files_gemini = list(map(lambda x: x[1], map_file_reference.values()))
-
-    #Aguardar o upload
-    LoadImage.wait_for_files_active([first_image_reference] + files_gemini)
-
-    # Pegar instrução inicial para o modelo
+    LoadImage.wait_for_files_active(base_image_references + files_gemini)
     instruction = create_instruction()
-
     egg_ia_gen = EggModelGen()
-
     egg_ia_gen.create_model(initial_instruction=instruction)
-
-    #Carregar o primeira imagem como exemplo
     example = map_file_reference[images_eggs_path[0]]
-
     chat_session = egg_ia_gen.model.start_chat(
         history=[
             {
                 "role": "user",
-                "parts": [
-                   first_image_reference,
-                   example[1],
-                   generate_training_example(df, example[0][0] - 1, example[0][1] - 1)
+                "parts": base_image_references + [
+                    generate_training_example(df, example[0][0] - 1, example[0][1] - 1)
                 ],
             },
         ]
     )
-
+    
     #Guardando o resultado de cada imagem em um csv
     for i,file_gemini in enumerate(files_gemini):
         response = chat_session.send_message(file_gemini)
@@ -163,7 +206,6 @@ def main():
             os.makedirs("./result")
 
         result_df.to_csv(f"./result/result_{(i*15) + 1}_to_{((i+1)*15) + 1}.csv", sep=";",index=False)
-
-
+        
 if __name__ == "__main__":
     main()
