@@ -138,42 +138,6 @@ def main():
     # Pegar todos os paths das imagens
     images_eggs_path = load_folders(os.getcwd(), folders)
 
-    # # Dar upload das imagem base das classificações
-    # first_image_reference = load_image_to_gemini( os.path.join(os.getcwd(), "img/Imagem base.png"))
-    # # Dar upload nas demais imagens que serão utilizadas no projeto. É retornado um dicionário onde a chave é o path, e o valor é um array com o primeiro
-    # # index tendo informação do intervalo da numeração dos ovos que a imagem se encontra, o segundo index é o file gerado pelo gemini ao dar upload 
-    # map_file_reference = load_all_egg_images_to_gemini(images_eggs_path)
-
-
-    # files_gemini = list(map(lambda x: x[1], map_file_reference.values()))
-
-    # #Aguardar o upload
-    # LoadImage.wait_for_files_active([first_image_reference] + files_gemini)
-
-    # # Pegar instrução inicial para o modelo
-    # instruction = create_instruction()
-
-    # egg_ia_gen = EggModelGen()
-
-    # egg_ia_gen.create_model(initial_instruction=instruction)
-
-    # #Carregar o primeira imagem como exemplo
-    # example = map_file_reference[images_eggs_path[0]]
-
-    # chat_session = egg_ia_gen.model.start_chat(
-    #     history=[
-    #         {
-    #             "role": "user",
-    #             "parts": [
-    #                first_image_reference,
-    #                example[1],
-    #                generate_training_example(df, example[0][0] - 1, example[0][1] - 1)
-    #             ],
-    #         },
-    #     ]
-    # )
-
-
     # Carregar as imagens base de classificações
     base_images = ["img/Imagem base.png", "img/Imagem base_2.png", "img/Imagem base_3.png"]
     base_image_references = [load_image_to_gemini(os.path.join(os.getcwd(), img)) for img in base_images]
