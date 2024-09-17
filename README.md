@@ -27,4 +27,3 @@ Este projeto utiliza a API do Google Generative AI para gerar conteúdo textual 
 8. **Criar um arquivo .env e adicionar chave GOOGLE_API_KEY como em env_models**
 9. **Rode o sistema: ``python .\index.py``**
 10. **Após a criação da pasta de result execute o ``analysis.ipynb``**
-
