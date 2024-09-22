@@ -59,10 +59,10 @@ def main():
     chave = carrega_chave()
     
     #print(dir(gemini))
-    # list_models()
+    list_models()
     
     # Usando só texto
-    prompt = "Explique porque os gatos caem em pé"
+    #prompt = "Explique porque os gatos caem em pé"
     # resultado = gerar_texto(prompt)
     # print(resultado)
     
@@ -73,7 +73,7 @@ def main():
     #resultado = analise_imagem(img)
     #print(resultado)
     
-    chat_history(prompt,None)
+    #chat_history(prompt,None)
 
 if __name__ == "__main__":
     main()

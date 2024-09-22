@@ -92,3 +92,15 @@ Esquemas de treinamento:
 - Você também receberá imagens de exemplo seguidas por arquivos CSV contendo a classificação correta de cada ovo. Esses exemplos servirão para familiarização e não requerem respostas, pois são parte do treinamento para a tarefa principal.
 
 """
+
+
+
+#prompt curto 
+
+prompt3 = """
+    Analise as imagens, e classifique usando a escala de 1 a 4, sendo 1 para uma qualidade  'muito boa' e 4 para 'muito ruim'.
+    O resultado deve ser em formato csv com as coluna do número do ovo e sua classificação
+    separada por ";". O número do ovo na ordem da baixo para cima da esquerda para direita.
+    Leve em consideração também a análise da ovoscopia;
+    O esquema de imagem seguida de um csv, servirá de exemplos de algumas classificações já existentes. Cada csv é a classificação correta ser retornado de acordo com a imagem dos ovos.
+    """

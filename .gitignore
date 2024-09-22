@@ -12,3 +12,6 @@ secrets.toml
 .venv/
 tmp/
 data/
+./result
+./result1
+./result2
