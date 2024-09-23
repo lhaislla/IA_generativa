@@ -101,6 +101,10 @@ def load_all_egg_images_to_gemini(path_images):
     return map_file_reference
 
 
+def load_training_info():
+    df_training = pd.read_excel("img\ovoscopia_treino.xlsx")
+    return df_training.set_index('nome_img') 
+
 def load_training_images():
     img_folders = ["mista", "tipo1", "tipo2", "tipo3", "tipo4"]
     img_directory = os.path.join(os.getcwd(), "img")
@@ -119,7 +123,8 @@ def load_training_images():
     files_gemini_types = list(map(lambda x: x[1], map_file_type_reference.values()))
     LoadImage.wait_for_files_active(files_gemini_types)
 
-    return map_file_type_reference
+    df_training_info = load_training_info() 
+    return map_file_type_reference, df_training_info  
 
 def load_classification_images(folders):
     images_eggs_path = load_folders(os.getcwd(), folders)
@@ -132,38 +137,35 @@ def load_classification_images(folders):
 
 
 def save_prompt_to_excel():
-    """
-    Salva o prompt em um arquivo Excel.
-
-    :param prompt: O texto do prompt a ser salvo.
-    :param file_path: O caminho onde o arquivo Excel será salvo.
-    """
-    
     prompt = create_instruction()
-    file_path="./analise.xlsx"
+    file_path = "./analise.xlsx"
     if isinstance(prompt, str):
         prompt = [prompt] 
     analise_df = pd.DataFrame(prompt, columns=["prompt"])
-    # Salvar em Excel
-    analise_df.to_excel(file_path, index=False)  
+    if os.path.exists(file_path):
+        existing_df = pd.read_excel(file_path) 
+        if existing_df.isnull().all(axis=1).iloc[0]:
+            existing_df.iloc[0] = analise_df.iloc[0]
+        else:
+            existing_df = pd.concat([analise_df, existing_df], ignore_index=True) 
+        analise_df = existing_df
+    analise_df.to_excel(file_path, index=False)
 
 
 def main():
     load_key()
     df = pd.read_excel("./IAGenOvoscopia/OVOSCOPIA-1RODADA - Sem 28dias.xlsx")
-    folders = ["0 DIAS - FRESCOS",  "7 DIAS", "14 DIAS", "21 DIAS"]
-    #folders = ["0 DIAS - FRESCOS"]
+    #folders = ["0 DIAS - FRESCOS",  "7 DIAS", "14 DIAS", "21 DIAS"]
+    folders = ["0 DIAS - FRESCOS"]
 
-    map_file_training_reference = load_training_images()
-    training_images = [file_gemini for _, file_gemini in map_file_training_reference.values()]  # Todas as imagens de treinamento
-
+    map_file_training_reference, df_training_info = load_training_images()  # Recebe as informações da planilha
+    training_images = [file_gemini for _, file_gemini in map_file_training_reference.values()]
     map_file_reference, files_gemini = load_classification_images(folders)
 
     instruction = create_instruction()
     egg_ia_gen = EggModelGen()
     egg_ia_gen.create_model(initial_instruction=instruction)
 
-    # Carregar imagens de exemplo para o chat, seguindo a ordem lida
     examples = []
     for path in list(map_file_reference.keys()):
         example = map_file_reference[path]
@@ -171,14 +173,14 @@ def main():
         examples.append(example[1])
         examples.append(csv_example)
         
-        if len(examples) >= 20:  # Limite de exemplos para o chat
+        if len(examples) >= 20:  
             break
 
     chat_session = egg_ia_gen.model.start_chat(
         history=[
             {
                 "role": "user",
-                "parts": training_images + examples,  # Usando todas as imagens de treinamento
+                "parts": training_images + examples,  
             },
         ]
     )
