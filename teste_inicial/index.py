@@ -3,7 +3,7 @@ from dotenv import load_dotenv, find_dotenv
 import google.generativeai as gemini
 import pandas as pd
 from teste_inicial.EggModelGen import EggModelGen
-from LoadImage import LoadImage
+from teste_inicial.LoadImage import LoadImage
 from io import StringIO
 
 def load_key():
