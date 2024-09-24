@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 import google.generativeai as gemini
 import pandas as pd
-from EggModelGen import EggModelGen
+from teste_inicial.EggModelGen import EggModelGen
 from LoadImage import LoadImage
 from io import StringIO
 
@@ -97,11 +97,13 @@ def load_all_egg_images_to_gemini(path_images):
     i = 0
     for p,path in enumerate(path_images):
         start = i 
+
         if p%14 == 13:
             i += 5
         else:
             i += 15
         end = i
+
         file_gemini = load_image_to_gemini(path)
         map_file_reference[path] = [(start, end), file_gemini]
 

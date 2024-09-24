@@ -3,8 +3,8 @@ import os
 def get_paths_original_data():
 
     base_path = os.getcwd()
-    folders = ["0 DIAS - FRESCOS",  "7 DIAS", "14 DIAS", "21 DIAS"]
-
+    #folders = ["0 DIAS - FRESCOS",  "7 DIAS", "14 DIAS", "21 DIAS"]
+    folders = ["0 DIAS - FRESCOS"]
     paths = []
     for folder in folders:
         folder_path = os.path.join(base_path, "IAGenOvoscopia", folder, "Fotos bluebox")

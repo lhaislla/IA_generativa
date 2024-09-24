@@ -1,18 +1,16 @@
 # Projeto de Generative AI
 
-Este projeto utiliza a API do Google Generative AI para gerar conteúdo textual e analisar imagens. Ele demonstra como configurar a API, gerar texto baseado em prompts e analisar imagens com um modelo específico.
+Este projeto utiliza a API do Google Generative AI para classificar imagens de ovos. 
 
 ## Funcionalidades
 
-- **Carregar Chave da API**: Configura a chave da API do Google Generative AI a partir de um arquivo `.env`.
-- **Gerar Texto**: Utiliza um modelo para gerar conteúdo textual com base em um prompt.
-- **Histórico de Chat**: Mantém um histórico de conversas e gera respostas com base em um prompt, exibindo o histórico completo.
-- **Analisar Imagem**: Carrega e analisa imagens usando o modelo de geração de conteúdo.
+- **Selecionar diferentes modelos de classificação**: Permite a escolha de um modelo para classificar os ovos.
+- **Utilizar diferentes prompts**:  Os modelos podem ser executados com prompts personalizados fornecidos pelo usuário.
+- **Classificar Imagens**: Carrega e classifica imagens utilizando um modelo de inteligência artificial generativa.
 
 ## Pré-requisitos
 
 - Python 3.x
-- Bibliotecas Python: `python-dotenv`, `google-generativeai`, `Pillow`, `IPython`
 
 ## Instalação
 
@@ -25,8 +23,7 @@ Este projeto utiliza a API do Google Generative AI para gerar conteúdo textual 
 5. **Atualize as libs: `` pip install -r requirements.txt --upgrade``**
 6. **Gerar apikey ``https://aistudio.google.com/app/apikey``**
 7. **Criar um arquivo .env e adicionar chave GOOGLE_API_KEY como em env_models**
-8. **Rode o sistema: ``python .\index.py``**
-9. **Após a criação da pasta de result execute o ``analysis.ipynb``**
+8. **Para analisar os reusultados, após a execução do modelo de sua escolha rode o ``analysis.ipynb``**
 
 ## Execução
 
@@ -47,3 +44,12 @@ Este projeto utiliza a API do Google Generative AI para gerar conteúdo textual 
    - result_path: Qual nome do csv que você quer guardar os resultados (deve ter a extensão .csv)
 
    Exemplo: `python run.py unique 1.0 unique.txt ./images/unique_eggs/ result.csv`
+
+
+6. Caso deseje rodar o modelo MultiType. Rode `python run.py multitype <prompt_file> <temperature> <test_path_dir> <result_path>`  
+   - prompt_file: coloque seu prompt na pasta `models/prompts` e coloque nesse parâmetro o nome que foi colocado para esse prompt  
+   - temperature: valor entre 0 e 2 que controla a criatividade do modelo  
+   - test_path_dir: Path das imagens de teste, onde as imagens estão localizadas  
+   - result_path: Qual nome do CSV que você quer guardar os resultados (deve ter a extensão .csv)  
+
+   Exemplo: `python run.py multitype 1.0 multitype_longer.txt ./img/ result_multitype.csv`

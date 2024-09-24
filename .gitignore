@@ -8,8 +8,6 @@
 secrets.toml
 .idea/
 .venv/
+./result
 tmp/
 data/
-./result
-./result1
-./result2

@@ -3,8 +3,7 @@ import sys
 
 from models.Unique import main as mainUnique
 from models.Matrix_mix import main as mainMixed
-
-
+from models.Matrix_mix import main as mainMultiType
 
 
 if __name__ == "__main__":
@@ -42,3 +41,14 @@ if __name__ == "__main__":
         result_path = sys.argv[5]
 
         mainUnique(temperature, prompt_path, images_path, result_path)
+
+    if command == "multitype":
+        if len(sys.argv) < 6:
+            raise Exception("Deve-se conter 6 entradas")
+        temperature = float(sys.argv[2])
+        prompt_path = sys.argv[3]
+        images_path = sys.argv[4]
+        result_path = sys.argv[5]
+
+        mainMultiType(temperature, prompt_path, images_path, result_path)
+   
