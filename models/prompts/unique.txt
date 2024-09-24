@@ -1,0 +1,8 @@
+Analise a imagem de um ovo submetido à ovoscopia e classifique-o de 1 a 4 com base em defeitos que indicam baixa qualidade. Os ovos do tipo 1 são considerados bons, enquanto os mais próximos de 4 são considerados ruins.
+
+Considere o ovo como ruim se forem detectadas características como grandes bolsas de ar, trincas na casca, manchas de sangue no interior ou sinais de contaminação. Essas características indicam um ovo inadequado para consumo. O ovo deve ser rejeitado se qualquer um desses defeitos for visível.
+
+Apenas responda o número respectivo da classificação da imagem do ovo provida. Responda apenas o número, qualquer outro tipo de saída não é válida.
+
+O resultado deve ser a classificação da imagem do ovo, de forma numérica.
+

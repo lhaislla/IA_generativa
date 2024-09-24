@@ -4,8 +4,6 @@
 *.pyc
 *.pq
 *.csv
-*.xls
-*.xlsx
 *.parquet
 secrets.toml
 .idea/
