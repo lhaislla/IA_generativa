@@ -104,3 +104,13 @@ prompt3 = """
     Leve em consideração também a análise da ovoscopia;
     O esquema de imagem seguida de um csv, servirá de exemplos de algumas classificações já existentes. Cada csv é a classificação correta ser retornado de acordo com a imagem dos ovos.
     """
+
+
+#Nathan
+promt4= """Analise as imagens, e classifique usando a escala de 1 a 4, sendo 1 para uma qualidade  'muito boa' e 4 para 'muito ruim'.
+O resultado deve ser em formato csv com as coluna do número do ovo e sua classificação
+separada por ";". 
+Leve em consideração a análise da ovoscopia;
+Cada imagem terá 20 ovos distribuidos em uma matriz 4x5. Cada célula tem a dimensão 329x412
+O número do ovo é de acordo com a sua célula com a ordem da baixo para cima da esquerda para direita.
+Será provido inicialmente imagens de refência para classificar. Cada imagem terá  20 ovos em uma matriz 4x5"""
